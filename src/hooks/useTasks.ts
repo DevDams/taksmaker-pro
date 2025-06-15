@@ -15,8 +15,8 @@ export function useTasks(initialFilters: Partial<Task> = {}) {
         try {
             const data = await TaskService.getTasks(filters)
             setTasks(data)
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Une erreur est survenue')
         } finally {
             setLoading(false)
         }
@@ -36,8 +36,8 @@ export function useTasks(initialFilters: Partial<Task> = {}) {
             const newTask = await TaskService.createTask(taskData)
             await loadTasks(initialFilters)
             return newTask
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Une erreur est survenue')
             throw err
         } finally {
             setLoading(false)
@@ -55,8 +55,8 @@ export function useTasks(initialFilters: Partial<Task> = {}) {
                 task.id === id ? updatedTask : task
             ))
             return updatedTask
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Une erreur est survenue')
             throw err
         } finally {
             setLoading(false)
@@ -71,8 +71,8 @@ export function useTasks(initialFilters: Partial<Task> = {}) {
         try {
             await TaskService.deleteTask(id)
             setTasks(prev => prev.filter((task: Task) => task.id !== id))
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Une erreur est survenue')
             throw err
         } finally {
             setLoading(false)

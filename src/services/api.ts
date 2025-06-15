@@ -1,9 +1,11 @@
 // import type { Task, User, TaskFilters } from '@/types'
 
+import type { Task } from "@/types"
+
 const API_BASE_URL = '/api'
 
 // Fonction simple pour les requêtes
-async function apiCall(url: string, options: any = {}) {
+async function apiCall(url: string, options: RequestInit = {}) {
     const response = await fetch(`${API_BASE_URL}${url}`, {
         headers: { 'Content-Type': 'application/json', ...options.headers },
         ...options,
@@ -20,7 +22,7 @@ async function apiCall(url: string, options: any = {}) {
 
 // Services simplifiés
 export const TaskService = {
-    async getTasks(filters: any = {}) {
+    async getTasks(filters: Partial<Task> = {}) {
         const params = new URLSearchParams()
         if (filters.status) params.append('status', filters.status)
         if (filters.priority) params.append('priority', filters.priority)
@@ -34,14 +36,14 @@ export const TaskService = {
         return await apiCall(`/tasks/${id}`)
     },
 
-    async createTask(data: any) {
+    async createTask(data: Task) {
         return await apiCall('/tasks', {
             method: 'POST',
             body: JSON.stringify(data),
         })
     },
 
-    async updateTask(id: string, data: any) {
+    async updateTask(id: string, data: Task) {
         return await apiCall(`/tasks/${id}`, {
             method: 'PUT',
             body: JSON.stringify(data),

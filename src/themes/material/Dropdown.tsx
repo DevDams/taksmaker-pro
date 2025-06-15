@@ -4,6 +4,7 @@ import {
   MenuItem,
   Typography,
   Box,
+  type SelectChangeEvent,
 } from "@mui/material";
 import { Check } from "lucide-react";
 
@@ -26,7 +27,7 @@ export function Dropdown({
   onChange,
   placeholder = "Sélectionner...",
 }: DropdownProps) {
-  const handleChange = (event: any) => {
+  const handleChange = (event: SelectChangeEvent<string>) => {
     onChange(event.target.value);
   };
 

@@ -27,7 +27,7 @@ export function Modal({
     <Dialog
       open={isOpen}
       onClose={onClose}
-      maxWidth={maxWidth[size] as any}
+      maxWidth={maxWidth[size] as unknown as "sm" | "md" | "lg" | "xl"}
       fullWidth
     >
       {title && (
