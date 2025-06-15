@@ -7,6 +7,7 @@ import { TaskCardKanban } from "./TaskCardKanban";
 import { useTasks } from "@/hooks/useTasks";
 import { useUsers } from "@/hooks/useUsers";
 import { Plus, Filter, Search } from "lucide-react";
+import type { Task } from "@/types";
 
 const TASK_COLUMNS = [
   {
@@ -40,7 +41,6 @@ export function TaskKanban() {
     createTask,
     updateTask,
     deleteTask,
-    filterTasks: _,
     clearError,
   } = useTasks();
 
@@ -48,7 +48,7 @@ export function TaskKanban() {
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editingTask, setEditingTask] = useState<any>(null);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Filtres

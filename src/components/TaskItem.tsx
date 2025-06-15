@@ -3,12 +3,13 @@ import { Button } from "@/components/ui/Button";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { useUsers } from "@/hooks/useUsers";
 import { Edit, Trash2, User, Calendar, Clock } from "lucide-react";
+import type { Task } from "@/types";
 
 interface TaskItemProps {
-  task: any;
-  onUpdate: (id: string, data: any) => Promise<void>;
+  task: Task;
+  onUpdate: (id: string, data: Task) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
-  onEdit: (task: any) => void;
+  onEdit: (task: Task) => void;
 }
 
 export function TaskItem({ task, onUpdate, onDelete, onEdit }: TaskItemProps) {
@@ -47,7 +48,7 @@ export function TaskItem({ task, onUpdate, onDelete, onEdit }: TaskItemProps) {
   const handleStatusChange = async () => {
     const newStatus = task.status === "Terminée" ? "En cours" : "Terminée";
     try {
-      await onUpdate(task.id, { status: newStatus });
+      await onUpdate(task.id, { ...task, status: newStatus } as Task);
     } catch (error) {
       console.error("Erreur lors de la mise à jour:", error);
     }

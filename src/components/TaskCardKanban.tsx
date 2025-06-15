@@ -10,12 +10,13 @@ import {
   Pen,
   Loader2,
 } from "lucide-react";
+import type { Task } from "@/types";
 
 interface TaskCardKanbanProps {
-  task: any;
-  onUpdate: (id: string, data: any) => Promise<void>;
+  task: Task;
+  onUpdate: (id: string, data: Task) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
-  onEdit: (task: any) => void;
+  onEdit: (task: Task) => void;
 }
 
 export function TaskCardKanban({
@@ -57,7 +58,7 @@ export function TaskCardKanban({
 
     setIsUpdating(true);
     try {
-      await onUpdate(task.id, { status: newStatus });
+      await onUpdate(task.id, { ...task, status: newStatus } as Task);
     } catch (error) {
       console.error("Erreur lors de la mise à jour:", error);
     } finally {

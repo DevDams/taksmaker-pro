@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { useUsers } from "@/hooks/useUsers";
+import type { Task } from "@/types";
 
 interface TaskFormProps {
-  onSubmit: (data: any) => Promise<void>;
+  onSubmit: (data: Task) => Promise<void>;
   onCancel: () => void;
-  initialData?: any;
+  initialData?: Task;
   isLoading?: boolean;
 }
 
@@ -37,7 +38,7 @@ export function TaskForm({
     if (!formData.title.trim()) return;
 
     try {
-      await onSubmit(formData);
+      await onSubmit(formData as Task);
     } catch (error) {
       console.error("Erreur lors de la soumission:", error);
     }
