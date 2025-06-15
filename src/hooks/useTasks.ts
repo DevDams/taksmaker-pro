@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { TaskService } from '@/services/api'
+import type { Task } from '@/types'
 
-export function useTasks(initialFilters = {}) {
-    const [tasks, setTasks] = useState<any[]>([])
+export function useTasks(initialFilters: Partial<Task> = {}) {
+    const [tasks, setTasks] = useState<Task[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 
@@ -27,7 +28,7 @@ export function useTasks(initialFilters = {}) {
     }, [loadTasks, initialFilters])
 
     // Créer une nouvelle tâche
-    const createTask = useCallback(async (taskData: any) => {
+    const createTask = useCallback(async (taskData: Task) => {
         setLoading(true)
         setError(null)
 
@@ -44,13 +45,13 @@ export function useTasks(initialFilters = {}) {
     }, [loadTasks, initialFilters])
 
     // Mettre à jour une tâche
-    const updateTask = useCallback(async (id: string, updates: any) => {
+    const updateTask = useCallback(async (id: string, updates: Task) => {
         setLoading(true)
         setError(null)
 
         try {
             const updatedTask = await TaskService.updateTask(id, updates)
-            setTasks(prev => prev.map((task: any) =>
+            setTasks(prev => prev.map((task: Task) =>
                 task.id === id ? updatedTask : task
             ))
             return updatedTask
@@ -69,7 +70,7 @@ export function useTasks(initialFilters = {}) {
 
         try {
             await TaskService.deleteTask(id)
-            setTasks(prev => prev.filter((task: any) => task.id !== id))
+            setTasks(prev => prev.filter((task: Task) => task.id !== id))
         } catch (err: any) {
             setError(err.message)
             throw err
@@ -79,7 +80,7 @@ export function useTasks(initialFilters = {}) {
     }, [])
 
     // Filtrer les tâches
-    const filterTasks = useCallback(async (filters: any) => {
+    const filterTasks = useCallback(async (filters: Partial<Task>) => {
         await loadTasks(filters)
     }, [loadTasks])
 

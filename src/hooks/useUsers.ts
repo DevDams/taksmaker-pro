@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { UserService } from '@/services/api'
+import type { User } from '@/types'
 
 export function useUsers() {
-    const [users, setUsers] = useState<any[]>([])
+    const [users, setUsers] = useState<User[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
 

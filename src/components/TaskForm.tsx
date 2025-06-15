@@ -6,7 +6,7 @@ import type { Task } from "@/types";
 interface TaskFormProps {
   onSubmit: (data: Task) => Promise<void>;
   onCancel: () => void;
-  initialData?: Task;
+  initialData?: Partial<Task> | null;
   isLoading?: boolean;
 }
 
@@ -27,7 +27,7 @@ export function TaskForm({
 
   useEffect(() => {
     if (initialData) {
-      setFormData(initialData);
+      setFormData(initialData as Task);
     } else if (users.length > 0) {
       setFormData((prev) => ({ ...prev, assignedUserId: users[0].id }));
     }

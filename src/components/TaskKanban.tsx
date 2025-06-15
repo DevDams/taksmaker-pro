@@ -78,12 +78,12 @@ export function TaskKanban() {
         (task) => task.status === column.id
       );
       return acc;
-    }, {} as Record<string, any[]>);
+    }, {} as Record<string, Task[]>);
 
     return grouped;
   }, [filteredTasks]);
 
-  const handleCreateTask = async (data: any) => {
+  const handleCreateTask = async (data: Task) => {
     setIsSubmitting(true);
     try {
       await createTask(data);
@@ -95,7 +95,7 @@ export function TaskKanban() {
     }
   };
 
-  const handleEditTask = async (data: any) => {
+  const handleEditTask = async (data: Task) => {
     if (!editingTask) return;
 
     setIsSubmitting(true);
@@ -110,7 +110,7 @@ export function TaskKanban() {
     }
   };
 
-  const openEditModal = (task: any) => {
+  const openEditModal = (task: Task) => {
     setEditingTask(task);
     setShowEditModal(true);
   };

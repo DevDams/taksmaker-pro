@@ -7,6 +7,7 @@ import { TaskItem } from "./TaskItem";
 import { useTasks } from "@/hooks/useTasks";
 import { useUsers } from "@/hooks/useUsers";
 import { Plus, Filter, Search } from "lucide-react";
+import type { Task } from "@/types";
 
 export function TaskList() {
   const {
@@ -24,7 +25,7 @@ export function TaskList() {
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editingTask, setEditingTask] = useState<any>(null);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Filtres
@@ -45,7 +46,7 @@ export function TaskList() {
     return matchesSearch && matchesStatus && matchesPriority && matchesUser;
   });
 
-  const handleCreateTask = async (data: any) => {
+  const handleCreateTask = async (data: Task) => {
     setIsSubmitting(true);
     try {
       await createTask(data);
@@ -57,7 +58,7 @@ export function TaskList() {
     }
   };
 
-  const handleEditTask = async (data: any) => {
+  const handleEditTask = async (data: Task) => {
     if (!editingTask) return;
 
     setIsSubmitting(true);
@@ -72,7 +73,7 @@ export function TaskList() {
     }
   };
 
-  const openEditModal = (task: any) => {
+  const openEditModal = (task: Task) => {
     setEditingTask(task);
     setShowEditModal(true);
   };
@@ -84,10 +85,10 @@ export function TaskList() {
   };
 
   const applyFilters = async () => {
-    const filters: any = {};
-    if (statusFilter) filters.status = statusFilter;
-    if (priorityFilter) filters.priority = priorityFilter;
-    if (userFilter) filters.assignedUserId = userFilter;
+    const filters: Partial<Task> = {};
+    if (statusFilter) filters.status = statusFilter as Task["status"];
+    if (priorityFilter) filters.priority = priorityFilter as Task["priority"];
+    if (userFilter) filters.assignedUserId = userFilter as Task["assignedUserId"];
 
     try {
       await filterTasks(filters);
